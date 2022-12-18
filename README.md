@@ -7,7 +7,7 @@
 
 #### author
 
-- ilyas niyazov
+- 
 
 #### service run instruction
 
