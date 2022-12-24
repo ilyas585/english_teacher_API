@@ -66,7 +66,7 @@ def root():
 
 @app.get("/play")
 def root():
-    return FileResponse("public/index.html")
+    return helper.play()
 
 
 if __name__ == "__main__":

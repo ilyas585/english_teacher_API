@@ -1,6 +1,6 @@
 import random
 import numpy as np
-from fastapi.responses import JSONResponse, FileResponse, RedirectResponse
+from fastapi.responses import JSONResponse, FileResponse, RedirectResponse, HTMLResponse
 
 
 class Helper:
@@ -8,6 +8,7 @@ class Helper:
         self.question_id = 1000
         self.db = {}
         self.db_score = {}
+        self.last_email = ""
 
         with open("db_ru_en.txt", encoding='utf-8') as f:
             data = f.readlines()
@@ -20,8 +21,15 @@ class Helper:
     #   =================== GENERATE ======================
 
     def login(self, email):
+        self.last_email = email
         self.db_score[email] = 0
         return JSONResponse(status_code=200)
+
+    def play(self):
+        with open("public/index.html") as f:
+            doc = f.read()
+        doc = doc.replace("$value_email$", self.last_email)
+        return HTMLResponse(doc)
 
     #   =================== GENERATE ======================
 
@@ -41,7 +49,7 @@ class Helper:
 
     def generate_question_letter(self):
         en_word = random.choice(list(self.dictionary.keys()))
-        index = random.randint(0, len(en_word))
+        index = random.randint(0, len(en_word)-1)
         correct_answer = en_word[index]
 
         question_id = self.get_question_id()
