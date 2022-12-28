@@ -3,10 +3,9 @@
 <head>
     <title>English Teacher</title>
     <meta charset="utf-8"/>
-</head>
 
-<style>
-button{
+    <style>
+        button{
   align-items: center;
   appearance: none;
   background-color: #FC0505;
@@ -35,9 +34,11 @@ button{
   vertical-align: top;
   white-space: nowrap;
 }
+
 th{
 padding:20px
 }
+
 h1{
 align-items: center;
 text-align: center;
@@ -47,14 +48,15 @@ table{
   margin-left: auto;
   margin-right: auto;
 }
-
-</style>
+    </style>
+</head>
 
 <body>
-<h1> Hello from English teacher  </br></h1>
+
+<h1> Hello from English teacher  </h1>
 <div id="question_id"> </div>
 <div id="score"> </div>
-<div id="user_email" content="$value_email$"></div>
+<div id="user_email"> </div>
 
 <table>
     <thead><tr><th> Guess word </th><th> Guess letter</th> </tr> </thead>
@@ -90,29 +92,20 @@ table{
 
 </table>
 
-
-<!--<button onclick="word_guess()"> guess word</button>-->
-<!--<div id="english"></div>-->
-<!--<div id="variance"></div>-->
-<!--<div id="question_id"></div>-->
-
-<!--<p> Введите правильный вариант ответа: </br>-->
-<!--    <input name="answer" id="answer">-->
-<!--</p>-->
-<!--<button onclick="word_check()"> check answer</button>-->
-
-<!--<div id="result"></div>-->
 <script>
 
     async function word_guess()
     {
-        console.log(document.getElementById("user_email").content)
         const response = await fetch("word/guess", {
         method: "GET"
         })
 
         if (response.ok)
             {
+            const user_email = response.headers.get("user_email")
+            console.log(user_email)
+            document.getElementById("user_email").value = user_email
+
             const data = await response.json()
             document.getElementById("question_word_english").textContent = data.english;
             document.getElementById("question_word_variance").textContent = data.variance;
@@ -122,13 +115,16 @@ table{
 
     async function letter_guess()
     {
-        console.log(document.getElementById("user_email").content)
         const response = await fetch("letter/guess", {
         method: "GET"
         })
 
         if (response.ok)
             {
+            const user_email = response.headers.get("user_email")
+            console.log(user_email)
+            document.getElementById("user_email").value = user_email
+
             const data = await response.json()
             document.getElementById("question_letter").textContent = data.en_word;
             document.getElementById("question_id").value = data.question_id;
@@ -137,18 +133,17 @@ table{
 
     async function word_check()
     {
-        const user_email = document.getElementById("user_email").content;
         const answer = document.getElementById("answer_word").value;
         const question_id = document.getElementById("question_id").value;
-        console.log(answer)
-        console.log(question_id)
-        console.log(user_email)
+        const user_email = document.getElementById("user_email").value
+
         const response = await fetch("word/check", {
         method: "POST",
         headers: { "Accept": "application/json", "Content-Type": "application/json" },
         body: JSON.stringify({
             answer: answer,
-            question_id: Number(question_id)
+            question_id: Number(question_id),
+            user_email: user_email
             })
         })
 
@@ -161,17 +156,17 @@ table{
 
     async function letter_check()
     {
-        console.log(document.getElementById("user_email").content)
         const answer = document.getElementById("answer_letter").value;
         const question_id = document.getElementById("question_id").value;
-        console.log(answer)
-        console.log(question_id)
+        const user_email = document.getElementById("user_email").value
+
         const response = await fetch("letter/check", {
         method: "POST",
         headers: { "Accept": "application/json", "Content-Type": "application/json" },
         body: JSON.stringify({
             letter: answer,
-            question_id: Number(question_id)
+            question_id: Number(question_id),
+            user_email: user_email
             })
         })
 

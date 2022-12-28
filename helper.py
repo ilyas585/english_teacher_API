@@ -23,12 +23,12 @@ class Helper:
     def login(self, email):
         self.last_email = email
         self.db_score[email] = 0
-        return JSONResponse(status_code=200)
+        return JSONResponse(status_code=200, content={})
 
     def play(self):
-        with open("public/index.html") as f:
+        with open("static/index.html") as f:
             doc = f.read()
-        doc = doc.replace("$value_email$", self.last_email)
+        doc = doc.replace("$user_email", self.last_email)
         return HTMLResponse(doc)
 
     #   =================== GENERATE ======================
@@ -45,7 +45,9 @@ class Helper:
         self.db[question_id] = ru_word
 
         return JSONResponse(content={"question_id": question_id, "variance": var, "english": en_word},
-                            media_type="application/json")
+                            media_type="application/json",
+                            headers={"user_email": self.last_email}
+                            )
 
     def generate_question_letter(self):
         en_word = random.choice(list(self.dictionary.keys()))
@@ -60,13 +62,15 @@ class Helper:
         join_en_word = "".join(list_en)
 
         return JSONResponse(content={"question_id": question_id, "en_word": join_en_word},
-                            media_type="application/json")
+                            media_type="application/json",
+                            headers={"user_email": self.last_email})
 
     #   =================== CHECK ======================
 
-    def check_answer(self, question_id, answer):
+    def check_answer(self, question_id, answer, user_email):
         if question_id in self.db:
             correct_answer = self.db[question_id]
+            self.db_score[user_email] += 1
             return JSONResponse(content={"is_correct": correct_answer == answer},
                                 media_type="application/json")
         else:
