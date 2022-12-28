@@ -54,7 +54,7 @@ table{
 <h1> Hello from English teacher  </br></h1>
 <div id="question_id"> </div>
 <div id="score"> </div>
-<div id="user_email" value="$value_email$"></div>
+<div id="user_email" content="$value_email$"></div>
 
 <table>
     <thead><tr><th> Guess word </th><th> Guess letter</th> </tr> </thead>
@@ -106,7 +106,7 @@ table{
 
     async function word_guess()
     {
-        console.log(document.getElementById("user_email").value)
+        console.log(document.getElementById("user_email").content)
         const response = await fetch("word/guess", {
         method: "GET"
         })
@@ -122,7 +122,7 @@ table{
 
     async function letter_guess()
     {
-        console.log(document.getElementById("user_email").value)
+        console.log(document.getElementById("user_email").content)
         const response = await fetch("letter/guess", {
         method: "GET"
         })
@@ -137,7 +137,7 @@ table{
 
     async function word_check()
     {
-        const user_email = document.getElementById("user_email").value;
+        const user_email = document.getElementById("user_email").content;
         const answer = document.getElementById("answer_word").value;
         const question_id = document.getElementById("question_id").value;
         console.log(answer)
@@ -161,7 +161,7 @@ table{
 
     async function letter_check()
     {
-        console.log(document.getElementById("user_email").value)
+        console.log(document.getElementById("user_email").content)
         const answer = document.getElementById("answer_letter").value;
         const question_id = document.getElementById("question_id").value;
         console.log(answer)

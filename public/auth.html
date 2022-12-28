@@ -26,35 +26,25 @@ button{
   line-height: 1.5;
   padding: 6px 20px;
   position: relative;
-  text-align: center;
-  text-decoration: none;
-  transition: background-color .2s,background-position .2s;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  vertical-align: top;
-  white-space: nowrap;
-}
-th{
-padding:20px
-}
-h1{
-align-items: center;
-text-align: center;
 }
 
 input{
-align-items: center;
 text-align: center;
+}
+
+.centered{
+text-align: center;
+height: 200px;
 }
 
 </style>
 
 <body>
-
-<input id="user_email">
-<button onclick="authorization()"> Login </button>
-
+    <div class="centered">
+        <input id="user_email">
+        <p> </p>
+        <button onclick="authorization()"> Login </button>
+    </div>
 <script>
 async function authorization() {
         const user_email = document.getElementById("user_email").value;
